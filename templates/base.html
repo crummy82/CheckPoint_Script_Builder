@@ -62,36 +62,43 @@
                     {% endfor %}
                   {% endif %}
                 {% endwith %}
-
-                <div class="w3-third w3-padding-top-32 w3-border-right">
-                <form class="w3-container" method="POST" action="/">
-                    <label class="w3-text-blue"><b>Host Names</b></label>
-                    <p>
-                        <textarea class="w3-border w3-padding" id="new_hosts" name="new_hosts" rows="13"
-                            cols="33" wrap="hard"></textarea></p>
-                </div>
-                <div class="w3-third w3-padding-top-32 w3-border-right w3-border-left">
-                    <label class="w3-text-blue"><b>IPs</b></label>
-                    <p>
-                        <textarea class="w3-border w3-padding" id="new_ips" name="new_ips" rows="13"
-                            cols="33" wrap="hard"></textarea></p>
-                </div>
-                <div class="w3-third w3-padding-top-32 w3-border-left">
-                    <label class="w3-text-blue"><b>Comments</b></label>
-                    <p>
-                        <textarea class="w3-border w3-padding" id="new_comments" name="new_comments" rows="13"
-                            cols="33" wrap="hard"></textarea></p>
-                </div>
+                <div class="w3-container w3-padding-top-32 w3-border-right">
+                <label class="w3-text-blue"><b>Upload CSV File</b></label>
+                <form method="POST" action="/" enctype="multipart/form-data">
+                    <p><input type="file" name="file"></p>
+                    <p><input type="submit" value="Submit"></p>
+                </form>
             </div>
         </div>
-        <div class="w3-container w3-center">
+        <div class="w3-third w3-padding-top-32 w3-border-right">
+            <form class="w3-container" method="POST" action="/">
+                <label class="w3-text-blue"><b>Host Names</b></label>
+                <p>
+                    <textarea class="w3-border w3-padding" id="new_hosts" name="new_hosts" rows="13"
+                              cols="33" wrap="hard"></textarea></p>
+        </div>
+        <div class="w3-third w3-padding-top-32 w3-border-right w3-border-left">
+            <label class="w3-text-blue"><b>IPs</b></label>
             <p>
-                <label class="w3-text-blue"><b>File Name</b></label>
-                <input class="w3-input w3-border" name="file_name" type="text" value="new_hosts.txt" style="width: 240px; margin-left: auto; margin-right: auto;"></p>
+                <textarea class="w3-border w3-padding" id="new_ips" name="new_ips" rows="13"
+                          cols="33" wrap="hard"></textarea></p>
+        </div>
+        <div class="w3-third w3-padding-top-32 w3-border-left">
+            <label class="w3-text-blue"><b>Comments</b></label>
             <p>
-                <button class="w3-button w3-blue w3-round-large">Create the script!</button></p>
-            <p>
-                <input type="reset" value="Clear" class="w3-button w3-blue w3-round-large"></input></p>
+                <textarea class="w3-border w3-padding" id="new_comments" name="new_comments" rows="13"
+                          cols="33" wrap="hard"></textarea></p>
+        </div>
+    </div>
+</div>
+    <div class="w3-container w3-center">
+    <p>
+        <label class="w3-text-blue"><b>File Name</b></label>
+        <input class="w3-input w3-border" name="file_name" type="text" value="new_hosts.txt" style="width: 240px; margin-left: auto; margin-right: auto;"></p>
+    <p>
+        <button class="w3-button w3-blue w3-round-large">Create the script!</button></p>
+        <p>
+        <input type="reset" value="Clear" class="w3-button w3-blue w3-round-large"></input></p>
             </form>
         </div>
         <hr id="footer">
@@ -112,6 +119,16 @@
         function w3_close() {
             document.getElementById("mySidebar").style.display = "none";
         }
+                            {% if uploaded %}
+                    {% for row in uploaded %}
+        var new_hosts = document.getElementById('new_hosts');
+                    new_hosts.value += '{{ row.host }}\n';
+        var new_ips = document.getElementById('new_ips');
+                    new_ips.value += '{{ row.ip }}\n';
+        var new_comments = document.getElementById('new_comments');
+                    new_comments.value += '{{ row.comment }}\n';
+                    {% endfor %}
+                    {% endif %}
     </script>
 
 </body>
